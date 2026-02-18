@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Temporary for development
+model User {
+  id             String       @id @default(uuid())
+  email          String
+  hashedPassword String
+  salt           String
+  userProfile    UserProfile?
+}
+
+model UserProfile {
+  id           String @id @default(uuid())
+  firstName    String @map("first_name")
+  lastName     String @map("last_name")
+  profileColor String @map("profile_color")
+  email        String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  createdAt DateTime      @map("created_at")
+  updatedAt DateTime?     @map("updated_at")
+  journals  JournalPage[]
+}
+
+model Test {
+  id           String        @id @default(uuid())
+  title        String
+  description  String
+  slug         String
+  questions    Question[]
+  testSessions TestSession[]
+  results      Result[]
+}
+
+model Question {
+  id      String   @id @default(uuid())
+  text    String
+  order   Int
+  test    Test     @relation(fields: [testId], references: [id])
+  testId  String   @map("test_id")
+  options Option[]
+}
+
+model Option {
+  id         String   @id @default(uuid())
+  text       String
+  score      Int
+  jumpTo     Int      @default(-1) @map("jump_to")
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String   @map("question_id")
+}
+
+model Result {
+  id         String @id @default(uuid())
+  text       String
+  scoreBegin Int    @map("score_begin")
+  scoreEnd   Int    @map("score_end")
+  test       Test   @relation(fields: [testId], references: [id])
+  testId     String
+}
+
+model TestSession {
+  id     String @id @default(uuid())
+  score  Int
+  total  Int
+  test   Test   @relation(fields: [testId], references: [id])
+  testId String @map("test_id")
+}
+
+model JournalPage {
+  id          String      @id @default(uuid())
+  createdAt   DateTime    @map("created_at")
+  updatedAt   DateTime?   @map("updated_at")
+
+  title String
+  description String?
+
+  userProfile UserProfile @relation(fields: [userId], references: [id])
+  userId      String      @map("user_id")
+
+  journalBlocks JournalBlock[]
+}
+
+enum JournalTypeEnum {
+  MOOD
+  NOTE
+  TODO
+  PROMPT
+}
+
+model JournalBlock {
+  id        String   @id @default(uuid())
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  type      String
+  jsonObj   Json
+
+  journalPage JournalPage @relation(fields: [journalId], references: [id])
+  journalId   String
+}
