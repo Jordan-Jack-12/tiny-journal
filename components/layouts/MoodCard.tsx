@@ -1,15 +1,23 @@
 import React from 'react'
 
 type MoodCardType = {
-    date: string,
-    data: string,
+  time: string,
+  mood: string,
+  content: string,
 }
 
-const MoodCard = ({data, date} : MoodCardType) => {
+const MoodCard = ({ content, mood, time }: MoodCardType) => {
   return (
-    <div>
-        <p>Date : {date}</p>
-        <h2>Mood : {data}</h2>
+    <div className='w-full p-4 bg-sky-50 rounded'>
+      <div>
+        <p>{mood}</p>
+      </div>
+      <div>
+        <h2>Reason: {content}</h2>
+      </div>
+      <div className='flex justify-end'>
+        <p className='text-sm'>{time}</p>
+      </div>
     </div>
   )
 }
