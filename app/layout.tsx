@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alvera",
+  title: "Tiny Journal",
   description: "Your mental health buddy.",
 };
 

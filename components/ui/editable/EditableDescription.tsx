@@ -1,28 +1,57 @@
 "use client"
 
+import { updateJournalDescriptionById } from '@/actions/journal'
+import { Check, CirclePlus, X } from 'lucide-react'
 import React, { useState } from 'react'
 
 type PropsType = {
+    journalId: string,
     intialValue: string | null
 }
 
 const EditableDescription = (props: PropsType) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [value, setValue] = useState<string | null>(props.intialValue);
-    if (!value) return 
+
+    function handleCross() {
+            setValue(props.intialValue);
+            setIsEditing(false);
+        }
+    
+        async function handleUpdate() {
+            const changed = (props.intialValue !== value);
+            try {
+                if (!changed || value == null) return;
+                const res = await updateJournalDescriptionById({ journalId: props.journalId, description: value });
+                if (!res?.success) return console.log(res?.message);
+                if (res.data?.description) setValue(res.data.description);
+            } catch (error) {
+                console.log(error)
+            }
+            setIsEditing(false);
+        }
+
     if (isEditing) {
         return (
-            <input 
-            value={value}
-            autoFocus
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={() => setIsEditing(false)}
-            type="text" 
-            />
+            <div className='flex justify-start gap-2' >
+                <input
+                    value={value ? value : ''}
+                    autoFocus
+                    onChange={(e) => setValue(e.target.value)}
+                    type="text"
+                />
+                <button onClick={handleUpdate} className='p-2 rounded-full font-semibold bg-green-200 text-green-600 cursor-pointer'>
+                    <Check size={18} />
+                </button>
+                <button onClick={handleCross} className='p-2 rounded-full font-semibold bg-red-200 text-red-600 cursor-pointer'>
+                    <X size={18} />
+                </button>
+            </div>
+
         )
     }
     return (
-        <p onClick={() => setIsEditing(true)}>{value}</p>
+        <p className='text-gray-500 flex gap-2 items-center' onClick={() => setIsEditing(true)}>{value ? value : <><CirclePlus size={18} /> Add Description</>}</p>
     )
 }
 

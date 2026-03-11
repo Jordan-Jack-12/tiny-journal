@@ -9,6 +9,10 @@ generator client {
   output   = "../lib/generated/prisma"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -29,7 +33,7 @@ model UserProfile {
   profileColor String @map("profile_color")
   email        String
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
   createdAt DateTime      @map("created_at")
@@ -90,7 +94,7 @@ model JournalPage {
   title String
   description String?
 
-  userProfile UserProfile @relation(fields: [userId], references: [id])
+  userProfile UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String      @map("user_id")
 
   journalBlocks JournalBlock[]
@@ -110,6 +114,6 @@ model JournalBlock {
   type      String
   jsonObj   Json
 
-  journalPage JournalPage @relation(fields: [journalId], references: [id])
+  journalPage JournalPage @relation(fields: [journalId], references: [id], onDelete: Cascade)
   journalId   String
 }

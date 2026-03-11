@@ -7,10 +7,12 @@ export default function CoreAppLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className="flex flex-col h-screen overflow-hidden">
-            <TopNavBar />
-            <div className="flex">
+        <section className="flex min-h-screen justify-around bg-sky-50">
+            <div className="">
                 <Sidebar />
+            </div>
+            <div className="w-full">
+                <TopNavBar />
                 <div className="w-full">
                     {children}
                 </div>

@@ -1,25 +1,46 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 type MoodCardType = {
+  id: string,
   time: string,
-  mood: string,
-  content: string,
+  mood?: string,
+  text: string,
+  container: number,
+  editBlock: ({ id, type, container }: { id: string, type: string, container: number }) => void,
+  deleteBlock: (id: string) => void
 }
 
-const MoodCard = ({ content, mood, time }: MoodCardType) => {
+const MoodCard = memo(function MoodCard({ id, text, mood, time, container, editBlock, deleteBlock }: MoodCardType) {
+  function handleEdit() {
+    editBlock({
+      id: id,
+      type: 'MOOD',
+      container: container
+    })
+  }
+
+  function onDelete() {
+    deleteBlock(id)
+  }
+
   return (
-    <div className='w-full p-4 bg-sky-50 rounded'>
+    <div className='group w-full p-4 bg-white rounded-2xl border border-sky-100' >
       <div>
         <p>{mood}</p>
       </div>
       <div>
-        <h2>Reason: {content}</h2>
+        <h2>Reason: {text}</h2>
       </div>
-      <div className='flex justify-end'>
-        <p className='text-sm'>{time}</p>
+      <div className='flex justify-end gap-2 items-center'>
+        <div className='flex gap-2 invisible group-hover:visible'>
+          <button onClick={handleEdit}>
+            Edit
+          </button>
+          <button onClick={onDelete}>Delete</button></div>
+        <span className='text-sm text-gray-500'>{time}</span>
       </div>
-    </div>
+    </div >
   )
-}
+})
 
 export default MoodCard

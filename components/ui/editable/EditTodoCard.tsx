@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 import Button from '../button/Button'
+import SecButton from '../button/SecButton';
+import { JsonObjType } from '@/types/journals.types';
 
 type PropsType = {
+    jsonObj: JsonObjType,
     addJournalBlock: (data: Record<string, string | boolean>) => void,
     onCancelButtonClick: () => void,
 }
 
 const EditTodoCard = (props: PropsType) => {
-    const [checked, setChecked] = useState<boolean>(false);
-    const [text, setText] = useState("");
+    const [checked, setChecked] = useState<boolean>(props.jsonObj && props.jsonObj.checked ? props.jsonObj.checked : false);
+    const [text, setText] = useState(props.jsonObj && props.jsonObj.text ? props.jsonObj.text : "");
 
     function onAddButtonClick() {
         props.addJournalBlock({ text: text, checked: checked });
         setChecked(false);
         setText("");
     }
-
+    
     return (
         <div className='flex flex-col gap-2 mt-2'>
             <div className='flex items-center justify-start gap-2'>
@@ -39,7 +42,7 @@ const EditTodoCard = (props: PropsType) => {
 
             </div>
             <div className='flex justify-end gap-2'>
-                <Button onClick={props.onCancelButtonClick}>Cancel</Button>
+                <SecButton onClick={props.onCancelButtonClick}>Cancel</SecButton>
                 <Button onClick={onAddButtonClick}>Add</Button>
             </div>
         </div>

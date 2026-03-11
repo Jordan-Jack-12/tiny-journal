@@ -1,25 +1,46 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 type PropsType = {
+    id: string,
     time: string,
-    prompt: string,
-    response: string
+    text: string,
+    prompt?: string,
+    container: number,
+    editBlock: ({ id, type, container }: { id: string, type: string, container: number }) => void,
+    deleteBlock: (id: string) => void
 }
 
-const PromptCard = (props: PropsType) => {
+const PromptCard = memo(function PromptCard(props: PropsType) {
+    function handleEdit() {
+        props.editBlock({
+            id: props.id,
+            type: 'PROMPT',
+            container: props.container
+        })
+    }
+
+    function onDelete() {
+        props.deleteBlock(props.id)
+    }
+
     return (
-        <div className='flex flex-col justify-between bg-sky-50 min-h-20 px-4 py-2'>
+        <div className='group flex flex-col justify-between bg-white rounded-2xl border border-sky-100 px-4 py-2'>
             <div>
                 <p>Prompt: {props.prompt}</p>
             </div>
             <div>
-                <p>Response: {props.response}</p>
+                <p>Response: {props.text}</p>
             </div>
-            <div className='flex justify-end'>
-                <span className='text-sm'>{props.time}</span>
+            <div className='flex justify-end gap-2 items-center'>
+                <div className='flex gap-2 invisible group-hover:visible'>
+                    <button onClick={handleEdit}>
+                        Edit
+                    </button>
+                    <button onClick={onDelete}>Delete</button></div>
+                <span className='text-sm text-gray-500'>{props.time}</span>
             </div>
         </div>
     )
-}
+})
 
 export default PromptCard

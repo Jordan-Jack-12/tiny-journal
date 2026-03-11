@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
 import Button from '../button/Button';
+import SecButton from '../button/SecButton';
+import { JsonObjType } from '@/types/journals.types';
 
 type PropsType = {
+    jsonObj: JsonObjType,
     addJournalBlock: (data: Record<string, string>) => void,
     onCancelButtonClick: () => void,
 }
 
 const EditPromptCard = (props: PropsType) => {
-    const [prompt, setPrompt] = useState("");
-    const [response, setResponse] = useState("");
+    const [prompt, setPrompt] = useState(props.jsonObj && props.jsonObj.prompt ? props.jsonObj.prompt : "");
+    const [response, setResponse] = useState(props.jsonObj && props.jsonObj.text ? props.jsonObj.text : "");
 
     function onAddButtonClick() {
-        props.addJournalBlock({ prompt: prompt, response: response });
+        props.addJournalBlock({ prompt: prompt, text: response });
         setPrompt("");
         setResponse("");
     }
@@ -36,7 +39,7 @@ const EditPromptCard = (props: PropsType) => {
                 ></textarea>
             </div>
             <div className='flex justify-end gap-2'>
-                <Button onClick={props.onCancelButtonClick}>Cancel</Button>
+                <SecButton onClick={props.onCancelButtonClick}>Cancel</SecButton>
                 <Button onClick={onAddButtonClick}>Add</Button>
             </div>
         </div>

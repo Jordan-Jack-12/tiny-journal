@@ -3,8 +3,7 @@ import React from 'react'
 
 const TopNavBar = () => {
   return (
-    <nav className='flex w-full h-16 justify-between items-center px-4 py-2 bg-(--color-sky-blue-200)'>
-        <Link href={"/"}><p className='text-xl font-semibold'>Alvera</p></Link>
+    <nav className='flex sticky top-0 w-full h-16 justify-end items-center px-4 py-2 bg-sky-300'>
         <div className='flex items-center gap-2'>
             <div>
                 Name
