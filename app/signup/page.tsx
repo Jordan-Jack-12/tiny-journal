@@ -18,13 +18,13 @@ const SignupPage = () => {
                             type="text"
                             placeholder="First name"
                             name='first-name'
-                            className="w-1/2 px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 outline-sky-300"
+                            className="w-1/2 px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ring-sky-300"
                         />
                         <input
                             type="text"
                             name='last-name'
                             placeholder="Last name"
-                            className="w-1/2 px-4 py-3 rounded-xl border focus:outline-none focus:ring-2"
+                            className="w-1/2 px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ring-sky-300"
                             style={{ outlineColor: "var(--accent)" }}
                         />
                     </div>
@@ -33,7 +33,7 @@ const SignupPage = () => {
                         type="email"
                         placeholder="Email"
                         name='email'
-                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2"
+                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ring-sky-300"
                         style={{ outlineColor: "var(--accent)" }}
                     />
 
@@ -41,7 +41,7 @@ const SignupPage = () => {
                         type="password"
                         placeholder="Password"
                         name='password'
-                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2"
+                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ring-sky-300"
                         style={{ outlineColor: "var(--accent)" }}
                     />
 
@@ -49,14 +49,12 @@ const SignupPage = () => {
                         type="password"
                         placeholder="Confirm password"
                         name='confirm-password'
-                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2"
-                        style={{ outlineColor: "var(--accent)" }}
+                        className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ring-sky-300"
                     />
 
                     <button
                         type="submit"
-                        className="w-full py-3 rounded-xl font-medium transition"
-                        style={{ backgroundColor: "var(--accent)" }}
+                        className="w-full px-4 py-2 rounded text-white font-semibold bg-sky-300 cursor-pointer hover:bg-sky-400"
                     >
                         Sign up
                     </button>
