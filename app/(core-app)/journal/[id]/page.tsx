@@ -10,7 +10,7 @@ const JournalPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const pageRes = await getJournalPageById(journalId)
   const pageData = pageRes.data
   if (!pageData) return notFound();
-  const currentDate = new Date(pageData.createdAt).toLocaleDateString()
+  const currentDate = new Date(pageData.created_at).toLocaleDateString()
 
   const journalBlocks = await getJournalBlocksServerAction(journalId);
   if (!journalBlocks || journalBlocks.success == false) return notFound();

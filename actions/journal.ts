@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma"
 import { JournalBlockType, JsonObjType } from "@/types/journals.types";
 
 export async function updateJournalTitleById({ journalId, title }: { journalId: string, title: string }) {
+
     try {
         const res = await prisma.journalPage.update({
             where: {
@@ -57,10 +58,10 @@ export async function getJournalPageByUserIdServerAction({userId, page} : {userI
     try {
         const response = await prisma.journalPage.findMany({
             where: {
-                userId: userId,
+                user_id: userId,
             },
             orderBy: {
-                createdAt: 'desc'
+                created_at: 'desc'
             },
             skip: (page - 1)*7,
             take: 7,
@@ -115,7 +116,7 @@ export async function getJournalBlocksServerAction(journalId: string) {
                 journalId: journalId
             },
             orderBy: {
-                createdAt: 'asc'
+                created_at: 'asc'
             }
         })
 
@@ -143,9 +144,9 @@ export async function createJournalPage(userId: string) {
         const res = await prisma.journalPage.create({
             data: {
                 title: "Title",
-                userId: userId,
-                updatedAt: new Date(),
-                createdAt: new Date(),
+                user_id: userId,
+                updated_at: new Date(),
+                created_at: new Date(),
             }
         })
         if (!res) return {
@@ -175,8 +176,8 @@ export async function createNewJournalBlockServerAction({ journalId, type, jsonO
                 journalId: journalId,
                 type: type,
                 jsonObj: jsonObj,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
+                created_at: createdAt,
+                updated_at: updatedAt,
             }
         })
         if (!res) return {
@@ -199,8 +200,8 @@ export async function createNewJournalBlockServerAction({ journalId, type, jsonO
 export async function createManyNewJournalBlocksServerAction({ journalBlocks }: { journalBlocks: JournalBlockType[] }) {
     const data = journalBlocks.map((item) => {
         return {
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
+            created_at: item.created_at,
+            updated_at: item.updated_at,
             type: item.type,
             jsonObj: item.jsonObj,
             journalId: item.journalId
@@ -235,7 +236,7 @@ export async function updateJournalBlockServerAction({ id, jsonObj, updatedAt }:
             },
             data: {
                 jsonObj: jsonObj,
-                updatedAt: updatedAt,
+                updated_at: updatedAt,
             }
         })
         if (!res) return {
@@ -262,7 +263,7 @@ export async function updateManyJournalBlocksServerAction({ journalBlocks }: { j
                 where: { id: item.id },
                 data: {
                     jsonObj: item.jsonObj,
-                    updatedAt: item.updatedAt,
+                    updatedAt: item.updated_at,
                 },
             })
 

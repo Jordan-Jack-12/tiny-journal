@@ -18,7 +18,6 @@ import SecButton from '../ui/button/SecButton';
 import Button from '../ui/button/Button';
 import { notFound } from 'next/navigation';
 import { JournalBlockSchema } from '@/lib/zodSchemas';
-import { redisTest } from '@/actions/session';
 
 type PropsType = {
     userId?: string,
@@ -100,8 +99,8 @@ const JournalPanel = (props: PropsType) => {
             journalId: props.journalId,
             type: type,
             jsonObj: jsonObj,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            created_at: new Date(),
+            updated_at: new Date(),
         })
         console.log("created new: ", editorZoneJournalBlock)
         console.log(newJournalBlocks)
@@ -121,8 +120,8 @@ const JournalPanel = (props: PropsType) => {
                     journalId: props.journalId,
                     type: data.type,
                     jsonObj: data.jsonObj,
-                    createdAt: data.createdAt,
-                    updatedAt: new Date(),
+                    created_at: data.created_at,
+                    updated_at: new Date(),
                 })
                 setEditingContainer(0);
                 break;
@@ -135,8 +134,8 @@ const JournalPanel = (props: PropsType) => {
                     journalId: props.journalId,
                     type: data.type,
                     jsonObj: data.jsonObj,
-                    createdAt: data.createdAt,
-                    updatedAt: new Date(),
+                    created_at: data.created_at,
+                    updated_at: new Date(),
                 })
                 break;
         }
@@ -188,14 +187,14 @@ const JournalPanel = (props: PropsType) => {
 
     return (
         <div className='p-2 w-full'>
-            <div className='flex justify-between items-center my-4 '>
+            <div className='flex justify-between items-center my-2 '>
                 {changed && <div className='flex gap-2'><SecButton onClick={onCancel}>Cancel</SecButton> <Button onClick={onSave}>Save</Button> </div>}
             </div>
-            <div className='flex justify-between items-center my-4 '>
+            <div className='flex justify-between items-center my-2 '>
                 {<EditableTitle journalId={props.journalId} intialValue={props.title} />}
                 <p>Date: {props.date}</p>
             </div>
-            <div className='text-gray-600'>
+            <div className='text-gray-600 pb-2'>
                 <EditableDescription journalId={props.journalId} intialValue={props.description} />
             </div>
             <hr className='text-gray-600' />
@@ -205,7 +204,7 @@ const JournalPanel = (props: PropsType) => {
                         if (deletedIds.includes(item.id)) return;
                         const itemType = item.type
 
-                        const hhmm = new Date(item.createdAt).toLocaleTimeString(navigator.language, {
+                        const hhmm = new Date(item.created_at).toLocaleTimeString(navigator.language, {
                             hour: '2-digit',
                             minute: '2-digit'
                         })
@@ -229,7 +228,7 @@ const JournalPanel = (props: PropsType) => {
                     newJournalBlocks.map((item: JournalBlockType, index: number) => {
                         const itemType = item.type;
                         const jsonObj = JSON.parse(JSON.stringify(item.jsonObj));
-                        const hhmm = new Date(item.createdAt).toLocaleTimeString(navigator.language, {
+                        const hhmm = new Date(item.created_at).toLocaleTimeString(navigator.language, {
                             hour: '2-digit',
                             minute: '2-digit'
                         })
@@ -247,7 +246,7 @@ const JournalPanel = (props: PropsType) => {
 
 
                 }
-                <div className={`flex gap-2 p-2 border border-gray-200 rounded-full bg-white justify-center sticky bottom-2 ${(isAdding || isEditing) ? 'hidden' : 'block'}`}>
+                <div className={`flex gap-2 p-2 border border-gray-200 rounded-full bg-white justify-center sticky bottom-2 *:cursor-pointer ${(isAdding || isEditing) ? 'hidden' : 'block'}`}>
                     <button className='flex gap-2 items-center py-2 px-4 hover:bg-sky-200 rounded-full' onClick={() => { onButtonClick('NOTE'); createNewJournalBlock('NOTE'); scrollToBottom() }}><CirclePlus size={18} /> note</button>
                     <button className='flex gap-2 items-center py-2 px-4 hover:bg-sky-200 rounded-full' onClick={() => { onButtonClick('MOOD'); createNewJournalBlock('MOOD'); scrollToBottom() }}><CirclePlus size={18} /> mood</button>
                     <button className='flex gap-2 items-center py-2 px-4 hover:bg-sky-200 rounded-full' onClick={() => { onButtonClick('TODO'); createNewJournalBlock('TODO'); scrollToBottom() }}><CirclePlus size={18} /> todo</button>
@@ -272,7 +271,6 @@ const JournalPanel = (props: PropsType) => {
                     </div>
                 </div>
             </div>
-            <Button onClick={redisTest}>Test redis</Button>
             <div ref={hiddenDivRef} className='empty-div'></div>
         </div>
 

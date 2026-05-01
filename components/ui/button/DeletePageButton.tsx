@@ -17,7 +17,7 @@ const DeletePageButton = (props: PropsType) => {
         router.push('/journal')
     }
     return (
-        <button className='cursor-pointer' onClick={handleDelete}>
+        <button className='cursor-pointer hover:bg-red-200 hover:text-red-500 rounded-md p-1' onClick={handleDelete}>
             <Trash />
         </button>
     )

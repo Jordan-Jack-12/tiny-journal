@@ -39,7 +39,7 @@ const EditableTitle = (props: PropsType) => {
                     autoFocus
                     onChange={(e) => setValue(e.target.value)}
                     type="text"
-                    className='text-3xl border-0 font-semibold'
+                    className='text-3xl bg-sky-100 px-2 rounded-t-md border-b-2 border-sky-300 font-semibold outline-0'
                 />
 
                 <button onClick={handleUpdate} className='p-2 rounded-full font-semibold bg-green-200 text-green-600 cursor-pointer'>
@@ -53,7 +53,7 @@ const EditableTitle = (props: PropsType) => {
         )
     }
     return (
-        <h1 onClick={() => setIsEditing(true)} className='text-3xl font-semibold'>{value}</h1>
+        <h1 onClick={() => setIsEditing(true)} className='text-3xl border-b-2 border-transparent font-semibold'>{value}</h1>
     )
 }
 

@@ -1,4 +1,5 @@
 import { updateJournalBlockServerAction } from '@/actions/journal';
+import { Strikethrough } from 'lucide-react';
 import React, { memo, useEffect, useState } from 'react'
 
 
@@ -28,15 +29,16 @@ const TodoCard = memo(function TodoCard(props: PropsType) {
 
     useEffect(() => {
         async function handleCheckBox() {
+            if (props.id.slice(0, 4) === 'temp') return;
             try {
-                await updateJournalBlockServerAction({id: props.id, jsonObj: {text: props.text, checked: checked}, updatedAt: new Date()})
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                await updateJournalBlockServerAction({ id: props.id, jsonObj: { text: props.text, checked: checked }, updatedAt: new Date() })
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 console.log("something went wrong!")
             }
         }
         handleCheckBox();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked])
 
     return (
@@ -48,14 +50,14 @@ const TodoCard = memo(function TodoCard(props: PropsType) {
                     onChange={(e) => setChecked(e.target.checked)}
                     className='w-4 h-4 bg-sky-500 accent-sky-300'
                 />
-                <p>{props.text}</p>
+                {checked ? <p><del>{props.text}</del></p> : <p>{props.text}</p>}
             </div>
             <div className='flex justify-end gap-2 items-center'>
-                <div className='flex gap-2 invisible group-hover:visible'>
-                    <button onClick={handleEdit}>
+                <div className='flex text-sm font-normal gap-2 invisible group-hover:visible'>
+                    <button onClick={handleEdit} className='cursor-pointer'>
                         Edit
                     </button>
-                    <button onClick={onDelete}>Delete</button></div>
+                    <button onClick={onDelete} className='text-red-500 cursor-pointer'>Delete</button></div>
                 <span className='text-sm text-gray-500'>{props.time}</span>
             </div>
         </div>

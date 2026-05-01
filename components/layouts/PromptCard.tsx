@@ -32,11 +32,11 @@ const PromptCard = memo(function PromptCard(props: PropsType) {
                 <p>Response: {props.text}</p>
             </div>
             <div className='flex justify-end gap-2 items-center'>
-                <div className='flex gap-2 invisible group-hover:visible'>
-                    <button onClick={handleEdit}>
+                <div className='flex text-sm font-normal gap-2 invisible group-hover:visible'>
+                    <button onClick={handleEdit} className='cursor-pointer'>
                         Edit
                     </button>
-                    <button onClick={onDelete}>Delete</button></div>
+                    <button onClick={onDelete} className='text-red-500 cursor-pointer'>Delete</button></div>
                 <span className='text-sm text-gray-500'>{props.time}</span>
             </div>
         </div>

@@ -26,7 +26,7 @@ export async function getTestQuestions(slug: string) {
     try {
         const test = await prisma.test.findFirst({where: {slug: slug}})
         if (!test) return null;
-        const res = await prisma.question.findMany({where: {testId: test.id}, include: {options: true}});
+        const res = await prisma.question.findMany({where: {test_id: test.id}, include: {Option: true}});
         const data = res;
         return data;
     } catch (error) {
@@ -39,7 +39,7 @@ export async function getTestQuestionsWithCheckBox(slug: string) {
     try {
         const test = await prisma.test.findFirst({where: {slug: slug}})
         if (!test) return null;
-        const res = await prisma.question.findMany({where: {testId: test.id}, include: {options: true}, orderBy: {order: 'asc'}});
+        const res = await prisma.question.findMany({where: {test_id: test.id}, include: {Option: true}, orderBy: {order: 'asc'}});
         const data = res;
         return data;
     } catch (error) {
@@ -58,7 +58,7 @@ export async function getResult(option_ids: string[], test_id: string) {
             testId: test_id
         }})
         if (!results || results.length < 1) return null;
-        const result = results.find(i => score >= i.scoreBegin && score <= i.scoreEnd);
+        const result = results.find(i => score >= i.score_begin && score <= i.score_end);
         console.log(result)
         return result;
     } catch (error) {

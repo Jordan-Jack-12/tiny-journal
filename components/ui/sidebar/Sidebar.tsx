@@ -14,8 +14,8 @@ const ListItemData = [
     },
     {
         logo: <ListCheck />,
-        text: "Routine",
-        url: "/routine"
+        text: "Productivity",
+        url: "/productive"
     },
     {
         logo: <Search />,

@@ -17,6 +17,7 @@ export type ResponseOptionWithCheckBoxType = {
     text: string,
     score: number,
     questionId: string,
+    testId: string,
 }
 
 export type QuestionAndOptionsType = QuestionType & {options: ResponseOptionType[]};

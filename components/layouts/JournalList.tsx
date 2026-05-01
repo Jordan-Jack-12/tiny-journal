@@ -5,11 +5,11 @@ import DeletePageButton from '../ui/button/DeletePageButton';
 
 type JournalType = {
     id: string,
-    createdAt: Date,
-    updatedAt: Date | null,
+    created_at: Date,
+    updated_at: Date | null,
     title: string,
     description: string | null,
-    userId: string;
+    user_id: string;
 }
 
 type PropsType = {
@@ -31,7 +31,7 @@ const JournalList = ({ journals }: PropsType) => {
                                 href={`/journal/${item.id}`}
                             >
                                 <h2 className='text-xl font-bold'>{item.title}</h2>
-                                <p className='text-[0.875rem] text-gray-500'>Date: {new Date(item.createdAt).toLocaleDateString()}</p>
+                                <p className='text-[0.875rem] text-gray-500'>Date: {new Date(item.created_at).toLocaleDateString()}</p>
                                 <p>{item.description}</p>
                             </Link>
                             <div className='invisible group-hover:visible'>

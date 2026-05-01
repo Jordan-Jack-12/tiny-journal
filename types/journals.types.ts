@@ -7,8 +7,8 @@ export type JsonObjType = {
 
 export type JournalBlockType = {
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
+    created_at: Date;
+    updated_at: Date;
     type: string;
     jsonObj: JsonObjType;
     journalId: string;
