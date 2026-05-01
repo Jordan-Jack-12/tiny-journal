@@ -53,6 +53,7 @@ export async function createOrUpdateDate(
           hours: hours,
         },
       });
+      return resUpdate.id;
     }
   } catch (e) {
     console.log(e);

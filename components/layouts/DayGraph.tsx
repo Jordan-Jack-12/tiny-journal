@@ -3,6 +3,7 @@
 import React from "react";
 import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const hours: { hour: number; amt: number }[] = [
   { hour: 1, amt: 0 },
   { hour: 2, amt: 0 },

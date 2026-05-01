@@ -1,4 +1,3 @@
-import Button from "@/components/ui/button/Button";
 import LinkButton from "@/components/ui/button/LinkButton";
 import SecButton from "@/components/ui/button/SecButton";
 import TopNavBar from "@/components/ui/landing-page-topbar/TopNavBar";

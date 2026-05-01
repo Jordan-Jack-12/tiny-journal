@@ -1,10 +1,9 @@
 "use client"
 
 import { createJournalPage } from '@/actions/journal';
-import prisma from '@/lib/prisma';
 import { createClient } from '@/lib/supabase/client';
 import { redirect, useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React from 'react'
 
 type PropsType = {
     profileId: string
@@ -16,6 +15,7 @@ const AddJournalButton = (props: PropsType) => {
     async function handleClick() {
         try {
             const supabase = createClient();
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {data, error} = await supabase.auth.getUser();
             if (error) redirect('/login');
             const res = await createJournalPage(props.profileId);

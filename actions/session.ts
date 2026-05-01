@@ -54,6 +54,7 @@ export async function supabaseLogIn(formData: FormData) {
         const schemaCheck = LogInSchema.safeParse({ email, password })
         if (schemaCheck.error) return;
         const supabase = await createClient();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { data, error } = await supabase.auth.signInWithPassword({ email: schemaCheck.data.email, password: schemaCheck.data.password})
     } catch (error) {
         console.log(error)

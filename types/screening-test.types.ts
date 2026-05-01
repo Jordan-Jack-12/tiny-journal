@@ -1,14 +1,14 @@
 export type QuestionType = {
     id: string,
     text: string,
-    testId: string
+    test_id: string
 }
 
 export type ResponseOptionType = {
     id: string,
     text: string,
     score: number,
-    questionId: string,
+    question_id: string,
 }
 
 export type ResponseOptionWithCheckBoxType = {
@@ -16,10 +16,10 @@ export type ResponseOptionWithCheckBoxType = {
     checked: boolean,
     text: string,
     score: number,
-    questionId: string,
-    testId: string,
+    question_id: string,
+    test_id: string,
 }
 
-export type QuestionAndOptionsType = QuestionType & {options: ResponseOptionType[]};
+export type QuestionAndOptionsType = QuestionType & {option: ResponseOptionType[]};
 
-export type QuestionAndOptionsWithCheckBoxType = QuestionType & {options: ResponseOptionWithCheckBoxType[]}
+export type QuestionAndOptionsWithCheckBoxType = QuestionType & {option: ResponseOptionWithCheckBoxType[]}

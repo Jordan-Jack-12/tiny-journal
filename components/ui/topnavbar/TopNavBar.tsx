@@ -1,6 +1,5 @@
 import prisma from '@/lib/prisma';
 import { createClient } from '@/lib/supabase/server'
-import Link from 'next/link'
 import React from 'react'
 
 const TopNavBar = async () => {

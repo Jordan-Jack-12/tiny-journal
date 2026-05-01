@@ -66,10 +66,10 @@ const ScreeningTestPanel = (prop: PropsType) => {
                         {questionsAndOptions && questionsAndOptions[currentIndex].text}
                     </div>
                     <div className='text-base'>
-                        {questionsAndOptions && questionsAndOptions[currentIndex].options.map((item: ResponseOptionType) => {
+                        {questionsAndOptions && questionsAndOptions[currentIndex].option.map((item: ResponseOptionType) => {
                             return (
-                                <div onClick={() => handleRespone(item.questionId, item.id)} key={item.id} className='flex gap-2 px-4 py-2 bg-transparent hover:bg-green-900/20 rounded'>
-                                    <input type="checkbox" checked={(response[item.questionId] == item.id)} readOnly />
+                                <div onClick={() => handleRespone(item.question_id, item.id)} key={item.id} className='flex gap-2 px-4 py-2 bg-transparent hover:bg-green-900/20 rounded'>
+                                    <input type="checkbox" checked={(response[item.question_id] == item.id)} readOnly />
                                     <p>
                                         {item.text} = {item.score}
                                     </p>

@@ -1,5 +1,4 @@
 import { updateJournalBlockServerAction } from '@/actions/journal';
-import { Strikethrough } from 'lucide-react';
 import React, { memo, useEffect, useState } from 'react'
 
 

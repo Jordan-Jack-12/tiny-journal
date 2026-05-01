@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 type PropsType = {
   data: { date: string; hours: number[] }[];
 };
 
-type DataGridType = {
-  data: string | boolean;
-  isHeader: boolean;
-};
+// type DataGridType = {
+//   data: string | boolean;
+//   isHeader: boolean;
+// };
 
 type mixedType = (number | boolean | string)[];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createOrUpdateDate } from "@/actions/productivity";
 import { add, getDay, startOfWeek } from "date-fns";
 import GraphExample from "./GraphExample";

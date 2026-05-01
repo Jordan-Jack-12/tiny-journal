@@ -263,7 +263,7 @@ export async function updateManyJournalBlocksServerAction({ journalBlocks }: { j
                 where: { id: item.id },
                 data: {
                     jsonObj: item.jsonObj,
-                    updatedAt: item.updated_at,
+                    updated_at: item.updated_at,
                 },
             })
 

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Area, AreaChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, XAxis, YAxis } from "recharts";
 
 const GraphExample = ({ data }: { data: { hour: string; amt: number }[] }) => {
   return (
