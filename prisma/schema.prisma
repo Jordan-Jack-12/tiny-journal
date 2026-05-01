@@ -1,103 +1,133 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider        = "prisma-client"
+  output          = "../lib/generated/prisma"
+  previewFeatures = ["partialIndexes"]
 }
 
 generator json {
-  provider = "prisma-json-types-generator"
+  provider        = "prisma-json-types-generator"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-// Temporary for development
-model User {
-  id             String       @id @default(uuid())
-  email          String
-  hashedPassword String
-  salt           String
-  userProfile    UserProfile?
-}
+model JournalBlock {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime
+  updated_at  DateTime
+  type        String
+  jsonObj     Json
+  journalId   String      @db.Uuid
+  JournalPage JournalPage @relation(fields: [journalId], references: [id], onDelete: Cascade)
 
-model UserProfile {
-  id           String @id @default(uuid())
-  firstName    String @map("first_name")
-  lastName     String @map("last_name")
-  profileColor String @map("profile_color")
-  email        String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
-
-  createdAt DateTime      @map("created_at")
-  updatedAt DateTime?     @map("updated_at")
-  journals  JournalPage[]
-}
-
-model Test {
-  id           String        @id @default(uuid())
-  title        String
-  description  String
-  slug         String
-  questions    Question[]
-  testSessions TestSession[]
-  results      Result[]
-}
-
-model Question {
-  id      String   @id @default(uuid())
-  text    String
-  order   Int
-  test    Test     @relation(fields: [testId], references: [id])
-  testId  String   @map("test_id")
-  options Option[]
-}
-
-model Option {
-  id         String   @id @default(uuid())
-  text       String
-  score      Int
-  jumpTo     Int      @default(-1) @map("jump_to")
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String   @map("question_id")
-}
-
-model Result {
-  id         String @id @default(uuid())
-  text       String
-  scoreBegin Int    @map("score_begin")
-  scoreEnd   Int    @map("score_end")
-  test       Test   @relation(fields: [testId], references: [id])
-  testId     String
-}
-
-model TestSession {
-  id     String @id @default(uuid())
-  score  Int
-  total  Int
-  test   Test   @relation(fields: [testId], references: [id])
-  testId String @map("test_id")
+  @@map("journal_block")
 }
 
 model JournalPage {
-  id          String      @id @default(uuid())
-  createdAt   DateTime    @map("created_at")
-  updatedAt   DateTime?   @map("updated_at")
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime
+  updated_at   DateTime?
+  title        String
+  description  String?
+  user_id      String         @db.Uuid
+  JournalBlock JournalBlock[]
+  UserProfile  UserProfile    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  title String
-  description String?
+  @@map("journal_page")
+}
 
-  userProfile UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String      @map("user_id")
+model Option {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text        String
+  score       Int
+  jump_to     Int      @default(-1)
+  question_id String   @db.Uuid
+  Question    Question @relation(fields: [question_id], references: [id])
 
-  journalBlocks JournalBlock[]
+  @@map("option")
+}
+
+model ProductiveHour {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String      @db.Uuid
+  date        DateTime
+  updateAt    DateTime
+  hours       String
+  day         Days
+  UserProfile UserProfile @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("productive_hour")
+}
+
+model Question {
+  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text    String
+  order   Int
+  test_id String   @db.Uuid
+  Option  Option[]
+  Test    Test     @relation(fields: [test_id], references: [id])
+
+  @@map("question")
+}
+
+model Result {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text        String
+  score_begin Int
+  score_end   Int
+  testId      String @db.Uuid
+  Test        Test   @relation(fields: [testId], references: [id])
+
+  @@map("result")
+}
+
+model Test {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  description String
+  slug        String
+  Question    Question[]
+  Result      Result[]
+  TestSession TestSession[]
+
+  @@map("test")
+}
+
+model TestSession {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  score   Int
+  total   Int
+  test_id String @db.Uuid
+  Test    Test   @relation(fields: [test_id], references: [id])
+
+  @@map("test_session")
+}
+
+model UserProfile {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  first_name     String
+  last_name      String
+  profile_color  String
+  email          String
+  userId         String           @db.Uuid
+  created_at     DateTime
+  updated_at     DateTime?
+  JournalPage    JournalPage[]
+  ProductiveHour ProductiveHour[]
+
+  @@map("user_profile")
+}
+
+enum Days {
+  SUN
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
 }
 
 enum JournalTypeEnum {
@@ -105,15 +135,4 @@ enum JournalTypeEnum {
   NOTE
   TODO
   PROMPT
-}
-
-model JournalBlock {
-  id        String   @id @default(uuid())
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime @map("updated_at")
-  type      String
-  jsonObj   Json
-
-  journalPage JournalPage @relation(fields: [journalId], references: [id], onDelete: Cascade)
-  journalId   String
 }
