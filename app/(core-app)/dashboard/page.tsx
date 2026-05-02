@@ -1,13 +1,19 @@
 import { getLoggedInUserFirstName } from '@/actions/user'
 import getGreeting from '@/util/Greeting'
-import React from 'react'
+import React, { Suspense } from 'react'
+
+const getUsersFirstName = async () => {
+  return await getLoggedInUserFirstName();
+}
 
 const DashboardPage = async () => {
-  const first_name = await getLoggedInUserFirstName();
   return (
-    <main>
-      <div className='px-4 py-2 text-3xl rounded bg-(--color-sky-blue-50)'>
-        {getGreeting()}, {first_name}!
+    <main className='p-4'>
+      <div className='px-4 py-2 text-3xl font-semibold font-serif rounded'>
+        {getGreeting()}, 
+        <Suspense fallback={<p className='inline animate-pulse bg-sky-200 rounded text-transparent'>UserName</p>}>
+          {getUsersFirstName()}!
+        </Suspense>
       </div>
       <div>
         What is on your mind?

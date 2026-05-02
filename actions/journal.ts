@@ -6,7 +6,7 @@ import { JournalBlockType, JsonObjType } from "@/types/journals.types";
 export async function updateJournalTitleById({ journalId, title }: { journalId: string, title: string }) {
 
     try {
-        const res = await prisma.journalPage.update({
+        const res = await prisma.journal_page.update({
             where: {
                 id: journalId
             },
@@ -23,7 +23,7 @@ export async function updateJournalTitleById({ journalId, title }: { journalId: 
 
 export async function updateJournalDescriptionById({journalId, description} : {journalId: string, description: string}) {
     try {
-        const res = await prisma.journalPage.update({
+        const res = await prisma.journal_page.update({
             where: {
                 id: journalId
             },
@@ -40,7 +40,7 @@ export async function updateJournalDescriptionById({journalId, description} : {j
 
 export async function deleteJournalPageById(id:string) {
     try {
-        await prisma.journalPage.delete({
+        await prisma.journal_page.delete({
             where: {
                 id: id
             }
@@ -56,7 +56,7 @@ export async function deleteJournalPageById(id:string) {
 export async function getJournalPageByUserIdServerAction({userId, page} : {userId: string, page: number}) {
 
     try {
-        const response = await prisma.journalPage.findMany({
+        const response = await prisma.journal_page.findMany({
             where: {
                 user_id: userId,
             },
@@ -86,7 +86,7 @@ export async function getJournalPageByUserIdServerAction({userId, page} : {userI
 
 export async function getJournalPageById(journalId: string) {
     try {
-        const response = await prisma.journalPage.findFirst({
+        const response = await prisma.journal_page.findFirst({
             where: {
                 id: journalId
             }
@@ -111,7 +111,7 @@ export async function getJournalPageById(journalId: string) {
 
 export async function getJournalBlocksServerAction(journalId: string) {
     try {
-        const response = await prisma.journalBlock.findMany({
+        const response = await prisma.journal_block.findMany({
             where: {
                 journalId: journalId
             },
@@ -141,7 +141,7 @@ export async function getJournalBlocksServerAction(journalId: string) {
 
 export async function createJournalPage(userId: string) {
     try {
-        const res = await prisma.journalPage.create({
+        const res = await prisma.journal_page.create({
             data: {
                 title: "Title",
                 user_id: userId,
@@ -171,7 +171,7 @@ export async function createJournalPage(userId: string) {
 
 export async function createNewJournalBlockServerAction({ journalId, type, jsonObj, createdAt, updatedAt }: { journalId: string, type: string, jsonObj: JsonObjType, createdAt: Date, updatedAt: Date }) {
     try {
-        const res = await prisma.journalBlock.create({
+        const res = await prisma.journal_block.create({
             data: {
                 journalId: journalId,
                 type: type,
@@ -208,7 +208,7 @@ export async function createManyNewJournalBlocksServerAction({ journalBlocks }: 
         }
     })
     try {
-        const res = await prisma.journalBlock.createMany({
+        const res = await prisma.journal_block.createMany({
             data: data
         })
 
@@ -230,7 +230,7 @@ export async function createManyNewJournalBlocksServerAction({ journalBlocks }: 
 
 export async function updateJournalBlockServerAction({ id, jsonObj, updatedAt }: { id: string, jsonObj: JsonObjType, updatedAt: Date }) {
     try {
-        const res = await prisma.journalBlock.update({
+        const res = await prisma.journal_block.update({
             where: {
                 id: id
             },
@@ -259,7 +259,7 @@ export async function updateJournalBlockServerAction({ id, jsonObj, updatedAt }:
 export async function updateManyJournalBlocksServerAction({ journalBlocks }: { journalBlocks: JournalBlockType[] }) {
     try {
         journalBlocks.forEach(async (item) => {
-            const res = await prisma.journalBlock.update({
+            const res = await prisma.journal_block.update({
                 where: { id: item.id },
                 data: {
                     jsonObj: item.jsonObj,
@@ -285,7 +285,7 @@ export async function updateManyJournalBlocksServerAction({ journalBlocks }: { j
 
 export async function deleteJournalBlockByIdServerAction(id: string) {
     try {
-        const res = await prisma.journalBlock.delete({
+        const res = await prisma.journal_block.delete({
             where: {
                 id: id
             }
@@ -302,7 +302,7 @@ export async function deleteJournalBlockByIdServerAction(id: string) {
 
 export async function deleteManyJournalBlockByIdServerAction(ids: string[]) {
     try {
-        const res = await prisma.journalBlock.deleteMany({
+        const res = await prisma.journal_block.deleteMany({
             where: {
                 id: {
                     in: ids

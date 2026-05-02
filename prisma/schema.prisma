@@ -13,111 +13,101 @@ datasource db {
   provider = "postgresql"
 }
 
-model JournalBlock {
-  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at  DateTime
-  updated_at  DateTime
-  type        String
-  jsonObj     Json
-  journalId   String      @db.Uuid
-  JournalPage JournalPage @relation(fields: [journalId], references: [id], onDelete: Cascade)
-
-  @@map("journal_block")
-}
-
-model JournalPage {
-  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model journal_block {
   created_at   DateTime
-  updated_at   DateTime?
-  title        String
-  description  String?
-  user_id      String         @db.Uuid
-  JournalBlock JournalBlock[]
-  UserProfile  UserProfile    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("journal_page")
+  updated_at   DateTime
+  type         String
+  jsonObj      Json
+  journalId    String       @db.Uuid
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  journal_page journal_page @relation(fields: [journalId], references: [id], onDelete: Cascade)
 }
 
-model Option {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model journal_page {
+  created_at    DateTime
+  updated_at    DateTime?
+  title         String
+  description   String?
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id       String          @db.Uuid
+  journal_block journal_block[]
+  user_profile  user_profile    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model option {
   text        String
   score       Int
   jump_to     Int      @default(-1)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   question_id String   @db.Uuid
-  Question    Question @relation(fields: [question_id], references: [id])
-
-  @@map("option")
+  question    question @relation(fields: [question_id], references: [id])
 }
 
-model ProductiveHour {
-  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id     String      @db.Uuid
-  date        DateTime
-  updateAt    DateTime
-  hours       String
-  day         Days
-  UserProfile UserProfile @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("productive_hour")
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model productive_hour {
+  date         DateTime
+  updateAt     DateTime
+  hours        String
+  day          Days
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id      String       @db.Uuid
+  user_profile user_profile @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
-model Question {
-  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model question {
   text    String
   order   Int
+  id      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   test_id String   @db.Uuid
-  Option  Option[]
-  Test    Test     @relation(fields: [test_id], references: [id])
-
-  @@map("question")
+  option  option[]
+  test    test     @relation(fields: [test_id], references: [id])
 }
 
-model Result {
-  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model result {
   text        String
   score_begin Int
   score_end   Int
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   testId      String @db.Uuid
-  Test        Test   @relation(fields: [testId], references: [id])
-
-  @@map("result")
+  test        test   @relation(fields: [testId], references: [id])
 }
 
-model Test {
-  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String
-  description String
-  slug        String
-  Question    Question[]
-  Result      Result[]
-  TestSession TestSession[]
-
-  @@map("test")
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model test {
+  title        String
+  description  String
+  slug         String
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  question     question[]
+  result       result[]
+  test_session test_session[]
 }
 
-model TestSession {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model test_session {
   score   Int
   total   Int
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   test_id String @db.Uuid
-  Test    Test   @relation(fields: [test_id], references: [id])
-
-  @@map("test_session")
+  test    test   @relation(fields: [test_id], references: [id])
 }
 
-model UserProfile {
-  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  first_name     String
-  last_name      String
-  profile_color  String
-  email          String
-  userId         String           @db.Uuid
-  created_at     DateTime
-  updated_at     DateTime?
-  JournalPage    JournalPage[]
-  ProductiveHour ProductiveHour[]
-
-  @@map("user_profile")
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model user_profile {
+  first_name      String
+  last_name       String
+  profile_color   String
+  email           String
+  created_at      DateTime
+  updated_at      DateTime?
+  id              String            @id @db.Uuid
+  journal_page    journal_page[]
+  productive_hour productive_hour[]
 }
 
 enum Days {

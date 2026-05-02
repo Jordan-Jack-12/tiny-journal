@@ -31,11 +31,11 @@ const JournalList = ({ journals }: PropsType) => {
                                 href={`/journal/${item.id}`}
                             >
                                 <h2 className='text-xl font-bold'>{item.title}</h2>
-                                <p className='text-[0.875rem] text-gray-500'>Date: {new Date(item.created_at).toLocaleDateString()}</p>
+                                <p className='text-[0.875rem] text-gray-500'>{new Date(item.created_at).toLocaleDateString()}</p>
                                 <p>{item.description}</p>
                             </Link>
                             <div className='invisible group-hover:visible'>
-                                <DeletePageButton id={item.id}/>
+                                <DeletePageButton id={item.id} />
                             </div>
                         </div>
 

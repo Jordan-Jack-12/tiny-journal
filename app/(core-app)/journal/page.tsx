@@ -1,8 +1,8 @@
 import { getJournalPageByUserIdServerAction } from "@/actions/journal";
+import { getLoggedInUserProfileId } from "@/actions/session";
 import JournalList from "@/components/layouts/JournalList";
 import AddJournalButton from "@/components/ui/button/AddJournalButton";
 import SecButton from "@/components/ui/button/SecButton";
-import prisma from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -37,10 +37,10 @@ const JouranlPageMain = async ({
   const page = Number(pageString);
   const next = page + 1;
   const previous = page - 1 < 1 ? 1 : page - 1;
-  const userId = await prisma.userProfile.findFirst({where: {userId: supabaseResponse.data?.claims.sub}, select: {id: true}});
+  const userId = await getLoggedInUserProfileId();
   if (!userId) return redirect('/login');
   const response = await getJournalPageByUserIdServerAction({
-    userId: userId.id,
+    userId: userId,
     page: page,
   });
 
@@ -48,7 +48,7 @@ const JouranlPageMain = async ({
     return (
       <div className="w-full p-2">
         <div className="flex ml-3 my-2 justify-between items-center">
-          <AddJournalButton profileId={userId.id}/>
+          <AddJournalButton profileId={userId}/>
           <div className="flex gap-2">
             <Link
               href={`/journal?page=${previous}`}
@@ -87,7 +87,7 @@ const JouranlPageMain = async ({
   return (
     <div className="w-full p-2">
       <div className="flex ml-3 my-2 justify-between items-center">
-        <AddJournalButton profileId={userId.id}/>
+        <AddJournalButton profileId={userId}/>
         <div className="flex gap-2">
           <Link
             href={`/journal?page=${previous}`}
@@ -113,7 +113,7 @@ const JouranlPageMain = async ({
         </div>
       </div>
       <hr className="text-gray-200" />
-      <JournalList userId={userId.id} journals={data} />
+      <JournalList userId={userId} journals={data} />
     </div>
   );
 };

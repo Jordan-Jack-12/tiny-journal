@@ -34,7 +34,7 @@ export async function createOrUpdateDate(
     const userId = await getLoggedInUserProfileId();
     if (!userId) return null;
     if (id.slice(0, 4) === "temp") {
-      const res = await prisma.productiveHour.create({
+      const res = await prisma.productive_hour.create({
         data: {
           user_id: userId,
           hours: hours,
@@ -45,7 +45,7 @@ export async function createOrUpdateDate(
       });
       return res.id;
     } else {
-      const resUpdate = await prisma.productiveHour.update({
+      const resUpdate = await prisma.productive_hour.update({
         where: {
           id: id,
         },

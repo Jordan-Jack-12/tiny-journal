@@ -17,6 +17,7 @@ export async function supabaseSignUp(formData: FormData) {
         const schemaCheck = SignUpSchema.safeParse({ email, password, first_name, last_name })
         if (schemaCheck.error) return
         const supabase = await createClient();
+        const color = pickRandomColor()
         const { data, error } = await supabase.auth.signUp({
             email: schemaCheck.data.email,
             password: schemaCheck.data.password,
@@ -24,15 +25,15 @@ export async function supabaseSignUp(formData: FormData) {
                 emailRedirectTo: 'https://tinyjournal.com/dashboard',
                 data: {
                     first_name: schemaCheck.data.first_name,
-                    last_name: schemaCheck.data.last_name
+                    last_name: schemaCheck.data.last_name,
+                    profile_color: color
                 }
             },
         })
-        const color = pickRandomColor()
         if (!error && data.user) {
-            await prisma.userProfile.create({
+            await prisma.user_profile.create({
                 data: {
-                    userId: data.user.id,
+                    id: data.user.id,
                     first_name: schemaCheck.data.first_name,
                     last_name: schemaCheck.data.last_name,
                     email: schemaCheck.data.email,
@@ -65,12 +66,9 @@ export async function getLoggedInUserProfileId() {
     try {
         const supabase = await createClient();
         const {data, error} = await supabase.auth.getClaims()
-        if (!error) {
-            const res = await prisma.userProfile.findFirst({where: {userId: data?.claims.sub}, select: {id: true}});
-            if (!res) return null;
-            return res.id;
-        }
-        return null;
+        if (error) return null;
+        if (data?.claims.sub == undefined) return null;
+        return data?.claims.sub;
     } catch (error) {
         console.log(error);
         return null;

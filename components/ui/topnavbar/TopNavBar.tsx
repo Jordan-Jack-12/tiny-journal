@@ -1,4 +1,3 @@
-import prisma from '@/lib/prisma';
 import { createClient } from '@/lib/supabase/server'
 import React from 'react'
 
@@ -19,14 +18,15 @@ const TopNavBar = async () => {
     </nav>
     )
   }
-  const user_data = await prisma.userProfile.findFirst({where: {userId: data?.claims.sub}, select: {profile_color: true, first_name: true}})
+  const user_data = data?.claims.user_metadata
+  const color = `color-mix(in srgb, #111111 80%, ${user_data?.profile_color})`
   return (
     <nav className='flex sticky top-0 w-full h-16 justify-end items-center px-4 py-2 bg-sky-300'>
         <div className='flex items-center gap-2'>
             <div className='text-white'>
                 {user_data?.first_name}
             </div>
-            <div className='h-8 w-8 rounded-full text-center flex items-center justify-center' style={{background: user_data?.profile_color, color: user_data?.profile_color}}>
+            <div className='h-8 w-8 rounded-full text-center flex items-center justify-center' style={{background: user_data?.profile_color, color:  color}}>
               {user_data?.first_name.charAt(0)}
             </div>
         </div>

@@ -10,7 +10,7 @@ const ProductiveData = async () => {
     if (!userId) return (
         <h1>Not found Anything</h1>
     )
-    const data = await prisma.productiveHour.findMany({
+    const data = await prisma.productive_hour.findMany({
         where: {
             AND: [
                 {

@@ -9,10 +9,10 @@ export async function getMoodAnalysis(
   endDate: Date,
 ) {
   try {
-    const res = await prisma.journalBlock.findMany({
+    const res = await prisma.journal_block.findMany({
       where: {
         type: "MOOD",
-        JournalPage: {
+        journal_page: {
           user_id: userId,
         },
         created_at: {
@@ -53,7 +53,7 @@ export async function getWeekAnalysis(
   endDate: Date,
 ) {
   try {
-    const res = await prisma.productiveHour.findMany({
+    const res = await prisma.productive_hour.findMany({
       where: {
         user_id: userId,
         date: {
@@ -96,7 +96,7 @@ export async function getMonthAnalysis({
   endDate: Date;
 }) {
   try {
-    const res = await prisma.productiveHour.findMany({
+    const res = await prisma.productive_hour.findMany({
       where: {
         user_id: userId,
         date: {
@@ -142,7 +142,7 @@ export async function getDayAnalysis({
   endDate: Date;
 }) {
   try {
-    const res = await prisma.productiveHour.findMany({
+    const res = await prisma.productive_hour.findMany({
       where: {
         user_id: userId,
         date: {
