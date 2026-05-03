@@ -12,7 +12,6 @@ const CreateNewJournalButton = () => {
     async function handleClick() {
         try {
             const supabase = createClient();
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {data, error} = await supabase.auth.getClaims();
             if (error || !data?.claims.sub) redirect('/login');
             const res = await createJournalPage(data.claims.sub);

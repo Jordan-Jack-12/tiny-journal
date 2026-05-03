@@ -2,6 +2,7 @@ import JournalPageData from "@/components/layouts/JournalPageData";
 import React from "react";
 import z from "zod";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const JournalBlockSchema = z.object({
   success: z.boolean(),
   message: z.string(),
