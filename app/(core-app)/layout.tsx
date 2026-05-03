@@ -7,7 +7,7 @@ export default function CoreAppLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className="flex min-h-screen justify-around bg-sky-50">
+        <section className="flex min-h-screen justify-around bg-sky-50/50">
             <div className="">
                 <Sidebar />
             </div>
