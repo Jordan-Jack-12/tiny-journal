@@ -2,18 +2,21 @@
 
 import prisma from "@/lib/prisma";
 import { MoodSchema } from "@/lib/zodSchemas";
+import { getLoggedInUserProfileId } from "./session";
+import { redirect } from "next/navigation";
 
 export async function getMoodAnalysis(
-  userId: string,
   startDate: Date,
   endDate: Date,
 ) {
   try {
+    const user_id = await getLoggedInUserProfileId();
+    if (!user_id) redirect('/login');
     const res = await prisma.journal_block.findMany({
       where: {
         type: "MOOD",
         journal_page: {
-          user_id: userId,
+          user_id: user_id,
         },
         created_at: {
           gte: startDate,
@@ -48,14 +51,15 @@ export async function getMoodAnalysis(
 }
 
 export async function getWeekAnalysis(
-  userId: string,
   startDate: Date,
   endDate: Date,
 ) {
   try {
+    const user_id = await getLoggedInUserProfileId();
+    if (!user_id) redirect('/login');
     const res = await prisma.productive_hour.findMany({
       where: {
-        user_id: userId,
+        user_id: user_id,
         date: {
           gte: startDate,
           lte: endDate,
@@ -87,18 +91,18 @@ export async function getWeekAnalysis(
 }
 
 export async function getMonthAnalysis({
-  userId,
   startDate,
   endDate,
 }: {
-  userId: string;
   startDate: Date;
   endDate: Date;
 }) {
   try {
+    const user_id = await getLoggedInUserProfileId();
+    if (!user_id) redirect('/login');
     const res = await prisma.productive_hour.findMany({
       where: {
-        user_id: userId,
+        user_id: user_id,
         date: {
           lte: endDate,
           gte: startDate,
@@ -133,18 +137,18 @@ export async function getMonthAnalysis({
 }
 
 export async function getDayAnalysis({
-  userId,
   startDate,
   endDate,
 }: {
-  userId: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date,
+  endDate: Date
 }) {
   try {
+        const user_id = await getLoggedInUserProfileId();
+    if (!user_id) redirect('/login');
     const res = await prisma.productive_hour.findMany({
       where: {
-        user_id: userId,
+        user_id: user_id,
         date: {
           gte: startDate,
           lte: endDate,
