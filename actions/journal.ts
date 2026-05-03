@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma"
 import { JournalBlockType, JsonObjType } from "@/types/journals.types";
+import { getLoggedInUserProfileId } from "./session";
 
 export async function updateJournalTitleById({ journalId, title }: { journalId: string, title: string }) {
 
@@ -53,18 +54,24 @@ export async function deleteJournalPageById(id:string) {
     }
 }
 
-export async function getJournalPageByUserIdServerAction({userId, page} : {userId: string, page: number}) {
-
+export async function getJournalPageByDateRangeServerAction({from, to} : {from: Date, to: Date}) {
     try {
+        const user_id = await getLoggedInUserProfileId();
+        if (!user_id) return {
+            success: false,
+            message: "Unauthorized",
+        }
         const response = await prisma.journal_page.findMany({
             where: {
-                user_id: userId,
+                user_id: user_id,
+                created_at: {
+                    gte: from,
+                    lte: to,
+                }
             },
             orderBy: {
                 created_at: 'desc'
             },
-            skip: (page - 1)*7,
-            take: 7,
         })
         if (!response || response.length < 1) return {
             success: false,
