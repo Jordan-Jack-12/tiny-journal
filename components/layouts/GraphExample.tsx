@@ -13,8 +13,8 @@ const GraphExample = ({ data }: { data: { hour: string; amt: number }[] }) => {
       }}
     >
       <Area type="monotone" dataKey="amt" stroke="#107faa" fill="#77daf3" />
-      <XAxis dataKey="hour" padding={{ right: 10 }} minTickGap={1} />
-      <YAxis width="auto" domain={[0, "dataMax"]} />
+      <XAxis dataKey="hour" padding={{ right: 10 }} minTickGap={1} axisLine={{ stroke: 'red', strokeWidth: 2 }} tickLine={false}/>
+      <YAxis width="auto" domain={[0, "dataMax"]} tickLine={false} tick={false} axisLine={{strokeWidth: 0}} />
     </AreaChart>
   );
 };
