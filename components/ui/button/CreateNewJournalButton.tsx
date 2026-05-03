@@ -2,25 +2,22 @@
 
 import { createJournalPage } from '@/actions/journal';
 import { createClient } from '@/lib/supabase/client';
+import { NotebookPen } from 'lucide-react';
 import { redirect, useRouter } from 'next/navigation';
 import React from 'react'
 
-type PropsType = {
-    profileId: string
-}
-
-const AddJournalButton = (props: PropsType) => {
+const CreateNewJournalButton = () => {
     const router = useRouter()
 
     async function handleClick() {
         try {
             const supabase = createClient();
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const {data, error} = await supabase.auth.getUser();
-            if (error) redirect('/login');
-            const res = await createJournalPage(props.profileId);
+            const {data, error} = await supabase.auth.getClaims();
+            if (error || !data?.claims.sub) redirect('/login');
+            const res = await createJournalPage(data.claims.sub);
             if (!res || res.success == false) return
-            router.push('/journal/'+res.data?.id)
+            router.push('/journal/' + res.data?.id)
         } catch (error) {
             console.log(error)
         }
@@ -28,12 +25,12 @@ const AddJournalButton = (props: PropsType) => {
 
     return (
         <button
-        className='bg-sky-300 text-white text-[0.875rem] font-semibold px-4 py-2 rounded-full cursor-pointer'
+        className='flex gap-2 items-center bg-sky-300 text-white text-[0.875rem] font-semibold px-4 py-2 rounded-full cursor-pointer'
         onClick={handleClick}
         >
-            Add New Journal
+            <NotebookPen /> Create New
         </button>
     )
 }
 
-export default AddJournalButton
+export default CreateNewJournalButton

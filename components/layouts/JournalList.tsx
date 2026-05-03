@@ -1,7 +1,8 @@
-import { Loader } from 'lucide-react'
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DeletePageButton from '../ui/button/DeletePageButton';
+import { getJournalPageByDateRangeServerAction } from '@/actions/journal';
 
 type JournalType = {
     id: string,
@@ -13,15 +14,26 @@ type JournalType = {
 }
 
 type PropsType = {
-    userId: string,
-    journals: JournalType[]
+    from: Date,
+    to: Date
 }
 
-const JournalList = ({ journals }: PropsType) => {
-
+const JournalList = (props: PropsType) => {
+    const [journals, setJournals] = useState<JournalType[]>();
+    useEffect(() => {
+        async function fetchJournalPages(from: Date, to: Date) {
+            try {
+                const res = await getJournalPageByDateRangeServerAction({from, to});
+                if (res.success == false) return
+                setJournals(res.data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchJournalPages(props.from, props.to);
+    }, [props.from, props.to])
     return (
         <div className='p-2 flex flex-col gap-2'>
-            {!journals && <Loader className='animate-spin mx-auto' />}
             {journals && journals.length > 0 &&
                 journals.map((item: JournalType, index: number) => {
                     return (
