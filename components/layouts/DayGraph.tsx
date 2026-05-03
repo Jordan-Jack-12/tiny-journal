@@ -58,7 +58,7 @@ const DayGraph = (props: PropsType) => {
       style={{
         width: "100%",
         maxWidth: "700px",
-        maxHeight: "70vh",
+        maxHeight: "50vh",
         aspectRatio: 1.618,
       }}
       responsive
@@ -70,8 +70,8 @@ const DayGraph = (props: PropsType) => {
         bottom: 5,
       }}
     >
-      <XAxis dataKey="hour" />
-      <YAxis width="auto" />
+      <XAxis dataKey="hour" tickLine={false} axisLine={{ stroke: 'gray', strokeWidth: 2 }} fontSize={12} />
+      <YAxis width="auto" tickLine={false} axisLine={{ stroke: 'gray', strokeWidth: 2 }} fontSize={12} />
       <Tooltip />
       <Line
         type="monotone"

@@ -10,23 +10,24 @@ import MonthGraph from "@/components/layouts/MonthGraph";
 import DayGraph from "@/components/layouts/DayGraph";
 import WeekGraphAnalysis from "@/components/layouts/WeekGraphAnalysis";
 import { getLoggedInUserProfileId } from "@/actions/session";
+import { redirect } from "next/navigation";
 
 const AnalysisPage = async () => {
   const userId = await getLoggedInUserProfileId();
-  if (!userId) return;
+  if (!userId) redirect("/login");
   const startDate = new Date("2026-01-01");
   const endDate = new Date();
 
-  async function getMoodData(userId: string) {
-    const res = await getMoodAnalysis(userId, startDate, endDate);
+  async function getMoodData() {
+    const res = await getMoodAnalysis(startDate, endDate);
     if (!res) return [];
     return res;
   }
 
-  const moodData = await getMoodData(userId);
-  const weekData = await getWeekAnalysis(userId, startDate, endDate);
-  const monthData = await getMonthAnalysis({ userId, startDate, endDate });
-  const dayData = await getDayAnalysis({ userId, startDate, endDate });
+  const moodData = await getMoodData();
+  const weekData = await getWeekAnalysis(startDate, endDate);
+  const monthData = await getMonthAnalysis({ startDate, endDate });
+  const dayData = await getDayAnalysis({ startDate, endDate });
   return (
     <div>
       <h1>Analysis Page</h1>
