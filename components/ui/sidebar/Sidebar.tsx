@@ -1,9 +1,9 @@
-import { Home, ListCheck, PenTool, Search, Settings } from 'lucide-react'
+import { LayoutDashboard, PenTool, Search, Settings, SquareCheck } from 'lucide-react'
 import ListItem from './ListItem'
 
 const ListItemData = [
     {
-        logo: <Home />,
+        logo: <LayoutDashboard />,
         text: "Dashboard",
         url: "/dashboard"
     },
@@ -13,7 +13,7 @@ const ListItemData = [
         url: "/journal"
     },
     {
-        logo: <ListCheck />,
+        logo: <SquareCheck />,
         text: "Productivity",
         url: "/productive"
     },
