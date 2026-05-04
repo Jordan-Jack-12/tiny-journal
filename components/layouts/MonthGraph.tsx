@@ -8,7 +8,7 @@ const dates = [
   23, 24, 25, 26, 27, 28, 29, 30, 31,
 ];
 
-const CustomTooltip = ({ active, payload, label }: TooltipContentProps) => {
+const CustomTooltip = ({ active, payload, label }: TooltipContentProps<number, string>) => {
   const isVisible = active && payload && payload.length;
   return (
     <div className="custom-tooltip bg-sky-50 p-2 border text-sm border-gray-300/30 rounded" style={{ visibility: isVisible ? 'visible' : 'hidden' }}>
